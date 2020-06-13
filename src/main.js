@@ -1,2 +1,2 @@
-const greeting = '青春';
+const greeting = 'baby';
 console.log(greeting)
