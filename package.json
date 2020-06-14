@@ -1,7 +1,12 @@
 {
   "name": "xb2-node",
   "version": "1.0.0",
-  "description": "郭锐的网站开发之路",
-  "author": "guorui"
- 
+  "description": "科技之家",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["人生无悔"],
+  "author": "郭锐",
+  "license": "ISC"
 }
