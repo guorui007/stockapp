@@ -12,6 +12,6 @@
   "author": "郭锐",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.0"
+    "express": "~4.17.0"
   }
 }
