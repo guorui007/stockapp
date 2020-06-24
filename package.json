@@ -10,5 +10,8 @@
     "人生无悔"
   ],
   "author": "郭锐",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
