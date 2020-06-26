@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "incremental": true, // TS编译器在第一次编译之后会生成一个存储编译信息的文件，第二次编译会在第一次的基础上进行增量编译，可以提高编译的速度
+        "target": "ES2017", // 目标语言的版本
+        "module": "CommonJS", // 生成代码的模板标准  00
+        "outDir": "./dist", // 指定输出目录  
+        "declaration": true, // 生成声明文件，开启后会自动生成声明文件 00
+        "emitDecoratorMetadata": true, //给源码里的装饰器声明加上设计类型元数据
+        "experimentalDecorators": true,//启用实验性的ES装饰器
+        "sourceMap": true, // 生成目标文件的sourceMap文件
+        "removeComments":true, // 删除注释 00
+        "allowSyntheticDefaultImports": true,//允许从没有设置默认导出的模块中默认导入。
+        "esModuleInterop": true, // 允许export=导出，由import from 导入
+        "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
+      },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+
+}
