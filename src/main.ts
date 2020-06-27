@@ -109,3 +109,11 @@
 //     message: `成功创建了内容:${content}`,
 //   });
 // });
+
+import app from './app';
+import { APP_PORT } from "./app/app.config"
+
+app.listen(APP_PORT, () => {
+  console.log('服务再次启动!');
+  console.log(process.env)
+});

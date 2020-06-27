@@ -16,3 +16,6 @@ npm-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# app  忽略配置文件信息   不做源代码管理  
+.env*
