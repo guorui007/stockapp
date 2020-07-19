@@ -111,9 +111,21 @@
 // });
 
 import app from './app';
-import { APP_PORT } from "./app/app.config"
+import { APP_PORT } from './app/app.config';
+import { connection } from './app/datbase/mysql';
 
 app.listen(APP_PORT, () => {
   console.log('服务再次启动!');
-  console.log(process.env)
+  console.log(process.env);
+});
+
+/**
+ * 测试使用数据服务连接
+ */
+
+connection.connect(error => {
+  if (error) {
+    console.log('连接失败啦,失败信息是:', error.message);
+  }
+  console.log('值得庆祝,连接成功啦!');
 });

@@ -18,6 +18,10 @@ export const defaultErrorHandler = (
   response: Response,
   next: NextFunction,
 ) => {
+  if (error.message) {
+    console.log('出错啦', error.message);
+  }
+
   let statuscode: number, message: string;
 
   /**
