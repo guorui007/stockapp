@@ -28,6 +28,18 @@ export const defaultErrorHandler = (
    * 处理异常
    */
   switch (error.message) {
+    case 'name_is_required':
+      statuscode = 400;
+      message = '请提供用户名';
+      break;
+    case 'password_is_required':
+      statuscode = 400;
+      message = '请提供用户密码';
+      break;
+    case 'name_is_exist':
+      statuscode = 409;
+      message = '用户名已经存在';
+      break;
     default:
       statuscode = 500;
       message = error.message;
