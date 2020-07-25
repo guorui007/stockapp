@@ -7,6 +7,7 @@ import express from 'express';
 
 import postrouter from '../post/post.router';
 import userrouter from '../user/user.router';
+import authrouter from '../auth/auth.router';
 //import userrouter from '../user/user.router';
 import { defaultErrorHandler } from './app.middleware';
 
@@ -23,7 +24,7 @@ app.use(express.json());
 /**
  * 导出应用
  */
-app.use(postrouter, userrouter);
+app.use(postrouter, userrouter, authrouter);
 
 /**
  * 捕捉异常信息

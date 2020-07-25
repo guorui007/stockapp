@@ -40,6 +40,14 @@ export const defaultErrorHandler = (
       statuscode = 409;
       message = '用户名已经存在';
       break;
+    case 'name_is_not_exist':
+      statuscode = 400;
+      message = '用户名不正确';
+      break;
+    case 'password_does_not_match':
+      statuscode = 400;
+      message = '密码不对';
+      break;
     default:
       statuscode = 500;
       message = error.message;

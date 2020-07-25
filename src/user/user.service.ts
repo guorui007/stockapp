@@ -19,10 +19,23 @@ export const createuser = async (user: UserModel) => {
 /**
  * 按照用户名查找用户
  */
+interface getuseroption {
+  password?: boolean;
+}
 
-export const getuserbyname = async (name: string) => {
+export const getuserbyname = async (
+  name: string,
+  options: getuseroption = {},
+) => {
+  //准备选项
+  const { password } = options;
+
   //定义查询指令
-  const statement = `select id ,name from user where name = ?`;
+  const statement = `select 
+       id ,
+       name
+      ${password ? ',password' : ''}
+       from user where name = ?`;
 
   //返回查询结果
   const [data] = await connection.promise().query(statement, name);

@@ -27,7 +27,10 @@ export const validateuser = async (
 
   const user = await userservice.getuserbyname(name);
 
-  if (user) return next(new Error('name_is_exist'));
+  if (user) {
+    console.log(user);
+    return next(new Error('name_is_exist'));
+  }
 
   //如果数据没有缺失，那么，下一步
   next();
