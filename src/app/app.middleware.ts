@@ -52,6 +52,10 @@ export const defaultErrorHandler = (
       statuscode = 401; //未授权
       message = '请先登陆';
       break;
+    case 'DOED_NOT_OWN_RESOURCE':
+      statuscode = 403; //禁止
+      message = '您不能处理这个内容';
+      break;
     default:
       statuscode = 500;
       message = error.message;

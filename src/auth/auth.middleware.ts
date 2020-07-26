@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt'; //bcrypt 是一个跨平台的文件加密工具
 import * as userservice from '../user/user.service';
 import { PUBLIC_KEY } from '../app/app.config';
 import { TokenPayload } from './auth.interface';
+import { possesOption } from './auth.service';
 
 /**
  * 下面，设定用户名处理的中间件
@@ -69,7 +70,7 @@ export const authguard = async (
     const decoded = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256'],
     });
-    console.log(decoded);
+    console.log('当前用户信息/n', decoded);
     //在请求里面添加当前用户
     request.user = decoded as TokenPayload;
 
@@ -78,4 +79,52 @@ export const authguard = async (
   } catch (error) {
     next(new Error('UNAUTHORIZED'));
   }
+};
+
+/**
+ * 访问控制
+ */
+
+interface AccessControlOptions {
+  possession?: boolean;
+}
+
+//注意这种嵌套处理方式，可以为中间件增加额外参数
+export const accessControl = (options: AccessControlOptions) => {
+  return async (request: Request, response: Response, next: NextFunction) => {
+    //解构options参数
+
+    const { possession } = options;
+    //在authguard中间件之后，获取request.user信息
+    const { id: userid } = request.user;
+
+    if (userid == 9) return next();
+    //获取客户端所需要的资源数据
+    const resourceidparams = Object.keys(request.params)[0];
+    //获取resourceType数据
+    const resourceType = resourceidparams.replace('id', '');
+    //获取resourceid信息
+    const resourceId = parseInt(request.params[resourceidparams], 10);
+
+    //判断是否要进行访问控制
+    if (possession) {
+      try {
+        //查询post数据表，看是否存在resourceid 和 userid匹配的内容
+        const ownsource = await possesOption({
+          resourceId,
+          resourceType,
+          userid,
+        });
+
+        //如果没有查询到，返回异常提示
+        if (!ownsource) {
+          return next(new Error('DOED_NOT_OWN_RESOURCE'));
+        }
+      } catch (error) {
+        return next(error);
+      }
+    }
+
+    next();
+  };
 };
