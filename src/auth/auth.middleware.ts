@@ -98,6 +98,7 @@ export const accessControl = (options: AccessControlOptions) => {
     //在authguard中间件之后，获取request.user信息
     const { id: userid } = request.user;
 
+    //如果是超级管理员，不做限制那么  return next() 会直接跳转出当前的中间件函数，执行下面的接口函数
     if (userid == 9) return next();
     //获取客户端所需要的资源数据
     const resourceidparams = Object.keys(request.params)[0];

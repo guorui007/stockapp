@@ -19,7 +19,7 @@ export const defaultErrorHandler = (
   next: NextFunction,
 ) => {
   if (error.message) {
-    console.log('出错啦', error.message);
+    console.log('出错啦la', error.message);
   }
 
   let statuscode: number, message: string;
