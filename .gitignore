@@ -19,3 +19,4 @@ npm-debug.log*
 
 # app  忽略配置文件信息   不做源代码管理  
 .env*
+config/*.key

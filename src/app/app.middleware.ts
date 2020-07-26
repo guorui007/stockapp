@@ -48,6 +48,10 @@ export const defaultErrorHandler = (
       statuscode = 400;
       message = '密码不对';
       break;
+    case 'UNAUTHORIZED':
+      statuscode = 401; //未授权
+      message = '请先登陆';
+      break;
     default:
       statuscode = 500;
       message = error.message;

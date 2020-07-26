@@ -35,11 +35,13 @@ export const store = async (
   //处理器从客户端接收数据
 
   const { title, content } = request.body;
+  //从request.user提取相关用户id信息，作为评论的内容信息
+  const { id: userid } = request.user;
 
   //插入并查询返回数据
   try {
     //调用函数将客户端返回的数据插入后返回
-    const data = await createpost({ title, content });
+    const data = await createpost({ title, content, userid });
     response.status(201).send(data);
   } catch (error) {
     next(error);
