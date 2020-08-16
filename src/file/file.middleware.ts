@@ -11,6 +11,7 @@ const fileUpload = multer({
  * 定义文件拦截器
  */
 
+//fileInterceptor
 export const fileInterceptor = fileUpload.single('file');
 
 /**
