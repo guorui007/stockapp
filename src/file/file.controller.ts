@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs';
 import { Request, Response, NextFunction } from 'express';
 import _ from 'lodash';
 
@@ -38,6 +40,7 @@ export const store = async (
       ...fileinfo,
       postid: parseInt(`${postid}`, 10),
       userid,
+      ...request.filemetadata,
     });
     //做出响应
     response.status(201).send(data);
@@ -64,13 +67,68 @@ export const serve = async (
   try {
     const file = await findFilebyId(parseInt(fileid, 10));
 
+    //获取要提供图像的尺寸
+    const { size } = request.query;
+
+    //定义文件名与目录
+    let filename = file.filename;
+    let root = 'uploads';
+    let resized = 'resized';
+
+    //判断是否符合查询条件
+
+    if (size) {
+      const imagesizes = ['large', 'medium', 'thumbnail'];
+
+      //检查请求的文件尺寸是否符合要求
+      if (!imagesizes.some(item => item == size)) {
+        throw new Error('FILE_NOT_FIND');
+      }
+    }
+
+    //如果size符合要求，检查对应的文件是否存在
+
+    const fileexist = fs.existsSync(
+      path.join(root, resized, `${filename}-${size}`),
+    );
+
+    //根据情况 重新定义文件名称
+    if (fileexist) {
+      filename = `${filename}-${size}`;
+      root = path.join(root, resized);
+    }
+
     //返回文件信息
-    response.sendFile(file.filename, {
-      root: 'uploads',
+    response.sendFile(filename, {
+      root,
       headers: {
         'Content-Type': file.mimetype,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 获取文件信息
+ */
+
+export const metadata = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  //获取查询的文件id
+  const { fileid } = request.params;
+
+  //返回获取的数据信息
+
+  try {
+    const file = await findFilebyId(parseInt(fileid, 10));
+    const data = _.pick(file, ['id', 'size', 'width', 'height', 'metadata']);
+    console.log(data);
+    response.send(data);
   } catch (error) {
     next(error);
   }

@@ -74,6 +74,8 @@ export const authguard = async (
     //在请求里面添加当前用户
     request.user = decoded as TokenPayload;
 
+    console.log('用户信息' + request.user);
+
     //下一步
     next();
   } catch (error) {
