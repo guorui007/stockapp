@@ -9,6 +9,7 @@ import postrouter from '../post/post.router';
 import userrouter from '../user/user.router';
 import authrouter from '../auth/auth.router';
 import filerouter from '../file/file.router';
+import tagrouter from '../tags/tag.router'
 //import userrouter from '../user/user.router';
 import { defaultErrorHandler } from './app.middleware';
 
@@ -25,7 +26,7 @@ app.use(express.json());
 /**
  * 导出应用
  */
-app.use(postrouter, userrouter, authrouter, filerouter);
+app.use(postrouter, userrouter, authrouter, filerouter, tagrouter);
 
 /**
  * 捕捉异常信息

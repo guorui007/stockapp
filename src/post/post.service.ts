@@ -64,3 +64,48 @@ export const deletepost = async (postid: number) => {
   //返回删除后的状态表 显示到客户端是个字典格式
   return data;
 };
+
+/**
+ * 保存内容标签
+ */
+
+export const createPostTag = async (postid: number, tagid: number) => {
+  //定义插入语句
+
+  const statement = `insert into posttag (postid,tagid) values(?,?)`;
+
+  //执行
+  const [data] = await connection.promise().query(statement, [postid, tagid]);
+
+  //返回数据
+
+  return data;
+};
+
+/**
+ * 查询是否针对特定内容   存在特定标签
+ */
+
+export const PostHasTag = async (postid: number, tagid: number) => {
+  //定义查询语句
+  const statement = `select * from posttag where postid= ? and tagid =? `;
+
+  //执行
+  const [data] = await connection.promise().query(statement, [postid, tagid]);
+
+  //返回
+  return data[0] ? true : false;
+};
+
+/**
+ * 删除内容标签
+ */
+
+export const deletePostTag = async (postid: number, tagid: number) => {
+  //定义删除语句
+  const statement = `delete from posttag where postid = ? and tagid = ?`;
+
+  const [data] = await connection.promise().query(statement, [postid, tagid]);
+  console.log('删除后返回的:', data);
+  return data;
+};
