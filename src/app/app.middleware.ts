@@ -60,6 +60,14 @@ export const defaultErrorHandler = (
       statuscode = 403; //禁止
       message = '您不能处理这个内容';
       break;
+    case 'TAG_HAS_EXIST':
+      statuscode = 400; //
+      message = '标签已经存在';
+      break;
+    case 'post_has_this_tag':
+      statuscode = 400; //
+      message = '内容已经存在这个标签';
+      break;
     default:
       statuscode = 500;
       message = error.message;

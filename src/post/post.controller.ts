@@ -1,8 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, request } from 'express';
 import * as getpostsdata from './post.service';
 import { createpost } from './post.service';
 import _ from 'lodash';
 import { EHOSTUNREACH } from 'constants';
+
+import { TagModel } from '../tags/tag.model';
+import { gettagByName, createtag } from '../tags/tag.service';
+import { nextTick } from 'process';
 
 export const index = async (
   request: Request,
@@ -89,5 +93,90 @@ export const shanchu = async (
     response.send(data);
   } catch (error) {
     next(error);
+  }
+};
+
+/**
+ * 添加内容标签
+ */
+
+export const storePostTag = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  //获取数据
+  const { postid } = request.params;
+  const { name } = request.body;
+
+  let tag: TagModel;
+
+  //首先判定 name是否存在于tag表
+  try {
+    tag = await gettagByName(name);
+  } catch (error) {
+    return next(error);
+  }
+
+  //如果tag存在
+  if (tag) {
+    try {
+      //判断tag是否属于特定内容
+      const posttag = await getpostsdata.PostHasTag(
+        parseInt(postid, 10),
+        tag.id,
+      );
+      if (posttag) return next(new Error('post_has_this_tag'));
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  //如果tag不存在
+  if (!tag) {
+    try {
+      //首先,将tag存入tag表，
+      const data = await createtag({ name });
+      tag = { id: data.insertId };
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  //tag不存在，或者存在但是没有对应到内容，那么给内容打上标签
+  try {
+    console.log(tag.id);
+    const createtag = await getpostsdata.createPostTag(
+      parseInt(postid, 10),
+      tag.id,
+    );
+    //成功创建了资源，返回状态码201
+    response.sendStatus(201);
+  } catch (error) {
+    console.log('出错1');
+    return next(error);
+  }
+};
+
+/**
+ * 删除对应内容的标签
+ */
+
+export const deletePosttag = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  //获取前端数据
+  const { postid } = request.params;
+  const { tagid } = request.body;
+
+  //执行删除
+  try {
+    await getpostsdata.deletePostTag(parseInt(postid), tagid);
+    //需要收到处理成功的反馈
+    response.sendStatus(200);
+  } catch (error) {
+    return next(error);
   }
 };

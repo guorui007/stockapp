@@ -31,6 +31,26 @@ router.delete(
 );
 
 /**
+ * 添加内容标签
+ */
+router.post(
+  '/posts/:postid/tag',
+  authguard,
+  accessControl({ possession: true }),
+  postcontroller.storePostTag,
+);
+
+/**
+ * 删除内容标签
+ */
+router.delete(
+  '/posts/:postid/tag',
+  authguard,
+  accessControl({ possession: true }),
+  postcontroller.deletePosttag,
+);
+
+/**
  * 要引用，就要导出路由
  */
 export default router;
