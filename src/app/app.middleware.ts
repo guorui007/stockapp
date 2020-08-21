@@ -64,6 +64,10 @@ export const defaultErrorHandler = (
       statuscode = 400; //
       message = '标签已经存在';
       break;
+    case 'this_replay_cannot_reply':
+      statuscode = 400; //
+      message = '这个回复是二级回复，不能被再回复';
+      break;
     case 'post_has_this_tag':
       statuscode = 400; //
       message = '内容已经存在这个标签';
