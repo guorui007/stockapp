@@ -32,5 +32,19 @@
   "Import re": {
     "prefix": "imre",
     "body": ["import { Request, Response, NextFunction } from 'express';"]
+  },
+  "Import switch": {
+    "prefix": "switch",
+    "body": [
+      "//分情况 处理${1:name}",
+      "switch(${2:name}){",
+      "    case '': ",
+      "        $3",
+      "      break;",
+      "   default:",
+      "",
+      "     break;",
+      "}"
+    ]
   }
 }

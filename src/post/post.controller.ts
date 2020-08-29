@@ -21,7 +21,10 @@ export const index = async (
   // }
 
   try {
-    const postdata = await getpostsdata.getposts();
+    const postdata = await getpostsdata.getposts({
+      sort: request.sort,
+      filter: request.filter,
+    });
     response.send(postdata);
   } catch (error) {
     next(error);

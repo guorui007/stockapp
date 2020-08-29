@@ -8,22 +8,49 @@
  */
 import { connection } from '../app/datbase/mysql';
 import { PostModle } from './post.model';
+import { sqlfragement } from './post.provider';
+//interface 接口 也是 可以导出 的
+export interface GetPostsOptionsFilter {
+  name: string;
+  sql?: string;
+  param?: string;
+}
 
-export const getposts = async () => {
+interface SortOrNot {
+  sort?: string;
+  filter?: GetPostsOptionsFilter;
+}
+export const getposts = async (option: SortOrNot) => {
+  const { sort, filter } = option;
+
+  //sql参数
+  let params: Array<any> = [];
+  if (filter.param) {
+    params = [filter.param, ...params];
+  }
+
   const statement = `
      SELECT 
         post.id,
         post.title,
         post.content,
-        JSON_OBJECT(
-          'ID',user.id,
-          'Name',user.name
-        ) as user from post left join user on user.id=post.userid 
+        ${sqlfragement.user},
+        ${sqlfragement.totalComments},
+        ${sqlfragement.file},
+        ${sqlfragement.tags}
+        
+        from post 
+        ${sqlfragement.leftjoin}
+        ${sqlfragement.leftjoinfile}
+        ${sqlfragement.leftjointags} 
+        where ${filter.sql}
+        group by post.id
+        order by ${sort}
   
   
   
   `;
-  const [data] = await connection.promise().query(statement);
+  const [data] = await connection.promise().query(statement, params);
 
   return data;
 };
