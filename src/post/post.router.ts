@@ -3,14 +3,14 @@ import * as postcontroller from './post.controller';
 import * as middlefunc from '../app/app.middleware';
 //导入验证身份的中间件
 import { authguard, accessControl } from '../auth/auth.middleware';
-import { sort, filter } from './post.middleware';
+import { sort, filter, paginate } from './post.middleware';
 
 /**
  * 创建路由
  */
 
 const router = express.Router();
-router.get('/posts', sort, filter, postcontroller.index);
+router.get('/posts', sort, filter, paginate, postcontroller.index);
 
 //调用存储内容的处理器
 router.post('/posts', authguard, postcontroller.store);

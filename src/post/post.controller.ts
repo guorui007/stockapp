@@ -19,11 +19,22 @@ export const index = async (
   //    */
   //   return next(new Error('错了错了'));
   // }
+  //给前端返回 评论数量
+  try {
+    const totalcount = await getpostsdata.getPostsCount({
+      filter: request.filter,
+    });
+
+    response.header('X-total-number', totalcount);
+  } catch (error) {
+    return next(error);
+  }
 
   try {
     const postdata = await getpostsdata.getposts({
       sort: request.sort,
       filter: request.filter,
+      pagination: request.pagination,
     });
     response.send(postdata);
   } catch (error) {

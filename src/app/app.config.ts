@@ -30,3 +30,9 @@ export const {
 export let { PRIVATE_KEY, PUBLIC_KEY } = process.env; //let 是定义变量的用法
 PRIVATE_KEY = Buffer.from(PRIVATE_KEY, 'base64').toString();
 PUBLIC_KEY = Buffer.from(PUBLIC_KEY, 'base64').toString();
+
+/**
+ * 导出内容分页参数
+ */
+
+export const { POSTS_PER_PAGE } = process.env;
