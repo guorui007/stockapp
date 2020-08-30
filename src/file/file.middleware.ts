@@ -1,10 +1,35 @@
 import { Request, Response, NextFunction } from 'express';
-import multer from 'multer';
+import multer, { FileFilterCallback } from 'multer';
 import Jimp from 'jimp';
 import { imageResizer } from './file.service';
+import { request } from 'http';
+
+/**
+ * 文件过滤器
+ */
+
+export const fileFilter = async (
+  request: Request,
+  file: Express.Multer.File,
+  callback: FileFilterCallback,
+) => {
+  //测试文件类型
+  const filetypes = ['image/png', 'image/jpg', 'image/jpeg'];
+  const allowed = filetypes.some(type => type === file.mimetype);
+
+  if (allowed) {
+    //调用回调函数  允许上传
+    callback(null, true);
+  } else {
+    callback(new Error('FILE_TYPE_IS_NOT_ALLOWED'));
+  }
+};
+
+//const fileUploadFilter = fileFilter();
 
 const fileUpload = multer({
   dest: 'uploads/',
+  fileFilter: fileFilter,
 });
 
 /**

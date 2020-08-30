@@ -2,12 +2,14 @@ export const sqlfragement = {
   user: `
     JSON_OBJECT(
         'ID',user.id,
-        'Name',user.name
+        'Name',user.name,
+        'avatar',if(count(avatar.userid),1,null) 
       ) as user 
     `,
   leftjoin: `
   left join user 
   on user.id=post.userid
+  left join avatar on avatar.userid=post.userid
     
     `,
   totalComments: `

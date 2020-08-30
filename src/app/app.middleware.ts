@@ -72,6 +72,10 @@ export const defaultErrorHandler = (
       statuscode = 400; //
       message = '内容已经存在这个标签';
       break;
+    case 'FILE_TYPE_IS_NOT_ALLOWED':
+      statuscode = 400; //
+      message = '文件类型不允许';
+      break;
     default:
       statuscode = 500;
       message = error.message;
