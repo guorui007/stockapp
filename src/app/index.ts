@@ -12,6 +12,7 @@ import filerouter from '../file/file.router';
 import tagrouter from '../tags/tag.router';
 import commentrouter from '../comment/comment.router';
 import avatarrouter from '../avatar/avatar.router';
+import likerouter from '../like/like.router';
 //import userrouter from '../user/user.router';
 import { defaultErrorHandler } from './app.middleware';
 
@@ -36,6 +37,7 @@ app.use(
   tagrouter,
   commentrouter,
   avatarrouter,
+  likerouter,
 );
 
 /**

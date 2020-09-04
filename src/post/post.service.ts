@@ -47,12 +47,13 @@ export const getposts = async (option: SortOrNot) => {
         ${sqlfragement.user},
         ${sqlfragement.totalComments},
         ${sqlfragement.file},
-        ${sqlfragement.tags}
-        
+        ${sqlfragement.tags},
+        ${sqlfragement.totallikes}
         from post 
         ${sqlfragement.leftjoin}
         ${sqlfragement.leftjoinfile}
-        ${sqlfragement.leftjointags} 
+        ${sqlfragement.leftjointags}
+        ${filter.name == 'userliked' ? sqlfragement.innerjoinuserlikepost : ''} 
         where ${filter.sql}
         group by post.id
         order by ${sort}
@@ -169,9 +170,10 @@ export const getPostsCount = async (options: SortOrNot) => {
       select 
          count(distinct post.id) as total
       from post
-      ${sqlfragement.leftjoin}
+        ${sqlfragement.leftjoin}
         ${sqlfragement.leftjoinfile}
-        ${sqlfragement.leftjointags} 
+        ${sqlfragement.leftjointags}
+        ${filter.name == 'userliked' ? sqlfragement.innerjoinuserlikepost : ''} 
         where ${filter.sql}
    
    `;

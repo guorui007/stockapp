@@ -70,4 +70,16 @@ left join tag on posttag.tagid=tag.id
   
   
   `,
+
+  totallikes: `
+   (select count(user_like_post.postid)
+    from user_like_post
+    where user_like_post.postid=post.id 
+   ) as totallikes   
+  `,
+  innerjoinuserlikepost: `
+     inner join user_like_post on 
+     user_like_post.postid=post.id 
+  
+  `,
 };
