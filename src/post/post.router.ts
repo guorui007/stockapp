@@ -4,13 +4,23 @@ import * as middlefunc from '../app/app.middleware';
 //导入验证身份的中间件
 import { authguard, accessControl } from '../auth/auth.middleware';
 import { sort, filter, paginate } from './post.middleware';
+import { POSTS_PER_PAGE } from '../app/app.config';
 
 /**
  * 创建路由
  */
 
 const router = express.Router();
-router.get('/posts', sort, filter, paginate, postcontroller.index);
+router.get(
+  '/posts',
+  sort,
+  filter,
+  paginate(POSTS_PER_PAGE),
+  postcontroller.index,
+);
+
+//获取单个内容
+router.get('/posts/:postid', postcontroller.show);
 
 //调用存储内容的处理器
 router.post('/posts', authguard, postcontroller.store);

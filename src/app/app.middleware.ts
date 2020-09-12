@@ -46,7 +46,7 @@ export const defaultErrorHandler = (
       break;
     case 'password_does_not_match':
       statuscode = 400;
-      message = '密码不对';
+      message = '密码不对哦';
       break;
     case 'UNAUTHORIZED':
       statuscode = 401; //未授权
@@ -75,6 +75,22 @@ export const defaultErrorHandler = (
     case 'FILE_TYPE_IS_NOT_ALLOWED':
       statuscode = 400; //
       message = '文件类型不允许';
+      break;
+    case 'NOT_FIND':
+      statuscode = 404; //
+      message = '没找到文件';
+      break;
+    case 'NOT_FIND_USER':
+      statuscode = 404; //
+      message = '没找到用户...';
+      break;
+    case 'USER_EXIST':
+      statuscode = 400; //
+      message = '用户名重复，请重新命名...';
+      break;
+    case 'Password_is_the_same':
+      statuscode = 400; //
+      message = '和原密码相同，请重新输入更新密码';
       break;
     default:
       statuscode = 500;

@@ -34,5 +34,8 @@ PUBLIC_KEY = Buffer.from(PUBLIC_KEY, 'base64').toString();
 /**
  * 导出内容分页参数
  */
+//将系统参数转化为整数
+export const POSTS_PER_PAGE = parseInt(process.env['POSTS_PER_PAGE'], 10);
 
-export const { POSTS_PER_PAGE } = process.env;
+//将系统分页参数转化为整数
+export const COMMENTS_PER_PAGE = parseInt(process.env['COMMENTS_PER_PAGE'], 10);

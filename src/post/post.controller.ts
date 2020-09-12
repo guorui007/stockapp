@@ -194,3 +194,24 @@ export const deletePosttag = async (
     return next(error);
   }
 };
+
+/**
+ * 单个内容
+ */
+
+export const show = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  //准备获取postid
+  const { postid } = request.params;
+
+  try {
+    const singlepost = await getpostsdata.getPostById(parseInt(postid, 10));
+    //返回数据
+    response.send(singlepost);
+  } catch (error) {
+    next(error);
+  }
+};

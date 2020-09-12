@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { POSTS_PER_PAGE } from '../app/app.config';
 
 /**
  * 定义场景查询
@@ -92,24 +91,22 @@ export const filter = async (
  * 内容分页
  */
 
-export const paginate = async (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-) => {
-  //获取页码
-  const { page = 1 } = request.query;
+export const paginate = (itemPerPage: number) => {
+  return async (request: Request, response: Response, next: NextFunction) => {
+    //获取页码
+    const { page = 1 } = request.query;
 
-  //定义每页的内容数量，如果没有  定义为30
-  const limit = parseInt(POSTS_PER_PAGE, 10) || 30;
+    //定义每页的内容数量，如果没有  定义为30
+    const limit = itemPerPage || 30;
 
-  //计算偏移 亮
-  const offset = limit * (parseInt(`${page}`, 10) - 1);
+    //计算偏移 亮
+    const offset = limit * (parseInt(`${page}`, 10) - 1);
 
-  request.pagination = {
-    limit,
-    offset,
+    request.pagination = {
+      limit,
+      offset,
+    };
+
+    next();
   };
-
-  next();
 };

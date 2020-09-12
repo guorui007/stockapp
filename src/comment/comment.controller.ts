@@ -4,6 +4,9 @@ import {
   IsReplyHasParent,
   updateComment,
   deleteComment,
+  getComments,
+  getTotalComments,
+  getCommentReplies,
 } from './comment.service';
 
 /**
@@ -122,5 +125,63 @@ export const destroy = async (
     response.send(data);
   } catch (error) {
     return next(error);
+  }
+};
+
+/**
+ * 定义获取评论列表内容的接口
+ */
+
+export const getcomments = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  //获取接口数据
+
+  try {
+    const totalcoms = await getTotalComments({
+      filter: request.filter,
+      panigate: request.pagination,
+    });
+
+    response.header('X-Total-C', totalcoms);
+  } catch (error) {
+    next(error);
+  }
+
+  try {
+    const commentsdata = await getComments({
+      filter: request.filter,
+      panigate: request.pagination,
+    });
+
+    response.send(commentsdata);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 定义获得评论回复列表的接口
+ */
+
+export const indexreplies = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  //获取前端评论id 参数
+
+  const { commentid } = request.params;
+
+  try {
+    const replies = await getCommentReplies({
+      commentid: parseInt(commentid, 10),
+    });
+
+    response.send(replies);
+  } catch (error) {
+    next(error);
   }
 };

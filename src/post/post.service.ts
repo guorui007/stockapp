@@ -182,3 +182,36 @@ export const getPostsCount = async (options: SortOrNot) => {
   const [data] = await connection.promise().query(statement, params);
   return data[0].total;
 };
+
+/**
+ * 定义按照id查询 内容
+ */
+
+export const getPostById = async (id: number) => {
+  //定义查询语句
+  const statement = `
+       select
+          post.id,
+          post.title,
+          post.content,
+          ${sqlfragement.user},
+          ${sqlfragement.totalComments},
+          ${sqlfragement.file},
+          ${sqlfragement.tags},
+          ${sqlfragement.totallikes}
+        from post
+          ${sqlfragement.leftjoin}
+          ${sqlfragement.leftjoinfile}
+          ${sqlfragement.leftjointags}
+        where post.id = ?
+   `;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, id);
+
+  if (!data[0].id) {
+    throw new Error('NOT_FIND');
+  }
+
+  return data[0];
+};
